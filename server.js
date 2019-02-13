@@ -41,14 +41,6 @@ hbs.registerHelper('screamIt', (text) => {
 });
 
 app.get('/', (req, res) => {		// 2 arguments (request, response)
-  //res.send('<h1>Hello Express!</h1>');
-//   res.send({
-//     name: 'Leon',
-//     likes: [
-//       'Hiking',
-//       'Outdoors'
-//     ]
-//   })
   res.render('home.hbs', {
     pageTitle: 'Home Page',
     welcomeMessage: 'Welcome to my home page'
@@ -59,6 +51,13 @@ app.get('/', (req, res) => {		// 2 arguments (request, response)
 app.get('/about', (req, res) => {
   res.render('about.hbs', {	// renders a view; dynamically; injects data
     pageTitle: 'About Page'
+  });
+});
+
+app.get('/projects', (req, res) => {
+  res.render('projects.hbs', {
+    pageTitle: 'Portfolio Page',
+    message: 'Portfolio page here'
   });
 });
 
