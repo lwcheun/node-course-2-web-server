@@ -1,15 +1,17 @@
 const express = require('express');
-const hbs = require('hbs');		//handlebars - template engine - dynamically render pages
-const fs = require('fs');
+const hbs = require('hbs');
 const path = require('path');
+const fs = require('fs');
+const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
 
 const port = process.env.PORT || 3000;
 const app = express();
 
 // Define paths for Express config - Absolute paths
-const publicDirectoryPath = path.join(__dirname + '/public')
-const viewsPath = path.join(__dirname, '/templates/views')
-const partialsPath = path.join(__dirname + '/templates/partials')
+const publicDirectoryPath = path.join(__dirname, '../public')
+const viewsPath = path.join(__dirname, '../templates/views')
+const partialsPath = path.join(__dirname, '../templates/partials')
 
 // Setup handlebars engine and views location
 app.set('view engine', 'hbs');
@@ -19,9 +21,7 @@ hbs.registerPartials(partialsPath);
 // Setup static directory to serve
 app.use(express.static(publicDirectoryPath));
 
-// Middleware [app.use]
 
-// next exists so you can tell express when your middleware function is done; async
 app.use((req, res, next) => {	
   var now = new Date().toString();
   var log = `${now}: ${req.method} ${req.url}`;
@@ -84,11 +84,23 @@ app.get('/weather', (req, res) => {
     })
   }
 
-  res.send({
-    forecast: '',
-    location: '',
-    address: req.query.address
-  });
+  geocode(req.query.address, (error, { latitude, longitude, location } = {}) => {
+    if (error) {
+      return res.send({ error })
+    }
+
+    forecast(latitude, longitude, (error, forecastData) => {
+      if (error) {
+        return res.send({ error })
+      }
+
+      res.send({
+        forecast: forecastData,
+        location,
+        address: req.query.address
+      })
+    })
+  })
 });
 
 app.get('/products', (req, res) => {

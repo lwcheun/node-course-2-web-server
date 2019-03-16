@@ -4,14 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "test": "./node_modules/nodemon/bin/nodemon.js src/app.js -e js,hbs",
+    "server": "./node_modules/nodemon/bin/nodemon.js server.js -e js,hbs",
+    "start": "node src/app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
-    "hbs": "^4.0.1",
-    "nodemon": "^1.18.10"
+    "hbs": "^4.0.3",
+    "nodemon": "^1.18.10",
+    "request": "^2.88.0"
   }
 }
