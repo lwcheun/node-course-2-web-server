@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/nodemon/bin/nodemon.js src/app.js -e js,hbs",
-    "server": "./node_modules/nodemon/bin/nodemon.js server.js -e js,hbs",
+    "dev": "./node_modules/nodemon/bin/nodemon.js src/app.js -e js,hbs",
     "start": "node src/app.js"
   },
   "author": "",
